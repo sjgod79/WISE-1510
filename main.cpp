@@ -29,10 +29,10 @@
 #define NODE_WISE_1510E MBED_CONF_TARGET_LSE_AVAILABLE
 
 #if NODE_DEEP_SLEEP_MODE_SUPPORT
-#define NODE_GPIO_ENABLE              1   ///< Disable GPIO report for deep sleep 
+#define NODE_GPIO_ENABLE              0   ///< Disable GPIO report for deep sleep 
 static DigitalOut *p_lpin;
 #else
-#define NODE_GPIO_ENABLE               0   ///< Enable or disable GPIO report
+#define NODE_GPIO_ENABLE               1   ///< Enable or disable GPIO report
 #endif
 
 #if NODE_M2_COM_UART
