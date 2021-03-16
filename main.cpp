@@ -29,7 +29,7 @@
 #define NODE_WISE_1510E MBED_CONF_TARGET_LSE_AVAILABLE
 
 #if NODE_DEEP_SLEEP_MODE_SUPPORT
-#define NODE_GPIO_ENABLE              0   ///< Disable GPIO report for deep sleep 
+#define NODE_GPIO_ENABLE              1   ///< Disable GPIO report for deep sleep 
 static DigitalOut *p_lpin;
 #else
 #define NODE_GPIO_ENABLE               1   ///< Enable or disable GPIO report
@@ -498,12 +498,25 @@ unsigned char node_get_sensor_data (char *data)
     sensor_data[len+2]=node_sensor_voc_co2&0xff;
     len++;
     #endif
+    //Modify By sangjo
     #if NODE_GPIO_ENABLE
+    sensor_data[len+2]=0x3;
+    len++;  // GPIO
+    sensor_data[len+2]=0x2;
+    len++; // len:2 bytes
+    sensor_data[len+2]=GPIO_PIN_1;
+    len++;
+    sensor_data[len+2]=0x4;
+    len++;  // GPIO
+    sensor_data[len+2]=0x2;
+    len++; // len:2 bytes
+    sensor_data[len+2]=GPIO_PIN_2;
+    len++;
     sensor_data[len+2]=0x5;
     len++;  // GPIO
-    sensor_data[len+2]=0x1;
-    len++; // len:1 bytes
-    sensor_data[len+2]=gpio0;
+    sensor_data[len+2]=0x2;
+    len++; // len:2 bytes
+    sensor_data[len+2]=GPIO_PIN_3;
     len++;
     #endif
     
