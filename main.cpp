@@ -29,9 +29,12 @@
 #define NODE_WISE_1510E MBED_CONF_TARGET_LSE_AVAILABLE
 
 #if NODE_DEEP_SLEEP_MODE_SUPPORT
-#define NODE_GPIO_ENABLE              1   ///< Disable GPIO report for deep sleep 
+
+/*
+#define NODE_GPIO_ENABLE              0   ///< Disable GPIO report for deep sleep 
 static DigitalOut *p_lpin;
 #else
+*/
 #define NODE_GPIO_ENABLE               1   ///< Enable or disable GPIO report
 #endif
 
@@ -41,13 +44,15 @@ RawSerial m2_serial(PC_4, PB_11);        ///< M2 serial port
 RawSerial debug_serial(PA_9, PA_10);	///< Debug serial port
 #endif
 
+/*
 #if NODE_GPIO_ENABLE
 ///< Control downlink GPIO1
 static DigitalOut led(PC_8);//IO01
 static unsigned int gpio0;
 #else
+*/
 DigitalIn gp6(PC_8); ///PC8 consumes power if not declare
-#endif
+//#endif
 
 typedef enum
 {
@@ -500,24 +505,14 @@ unsigned char node_get_sensor_data (char *data)
     #endif
     //Modify By sangjo
     #if NODE_GPIO_ENABLE
-    sensor_data[len+2]=0x3;
-    len++;  // GPIO
-    sensor_data[len+2]=0x2;
-    len++; // len:2 bytes
-    sensor_data[len+2]=GPIO_PIN_1;
-    len++;
-    sensor_data[len+2]=0x4;
-    len++;  // GPIO
-    sensor_data[len+2]=0x2;
-    len++; // len:2 bytes
-    sensor_data[len+2]=GPIO_PIN_2;
-    len++;
     sensor_data[len+2]=0x5;
-    len++;  // GPIO
-    sensor_data[len+2]=0x2;
-    len++; // len:2 bytes
-    sensor_data[len+2]=GPIO_PIN_3;
+    len++;  // GPIO0
+    sensor_data[len+2]=0x1;
+    len++; // len:1 bytes
+    sensor_data[len+2]=DigitalIn;
     len++;
+
+    
     #endif
     
     #if ((!NODE_SENSOR_TEMP_HUM_ENABLE)&&(!NODE_SENSOR_CO2_VOC_ENABLE)&&(!NODE_GPIO_ENABLE))
